@@ -70,7 +70,7 @@ public class NoticeService {
 		pager.makeRow();
 		pager.makePage(noticeRepository.count());
 		Pageable pageable = PageRequest.of((int) pager.getStartRow(), pager.getPerPage(), Sort.Direction.DESC, "num");
-		//ar = noticeRepository.findAll();
+		ar = noticeRepository.findAll();
 
 		if (pager.getKind().equals("bw")) {
 			ar = noticeRepository.findByWriterContaining(pager.getSearch(), pageable);
