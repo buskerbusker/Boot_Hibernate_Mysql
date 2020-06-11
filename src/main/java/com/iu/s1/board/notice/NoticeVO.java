@@ -23,7 +23,7 @@ import lombok.EqualsAndHashCode;
 public class NoticeVO extends BoardVO {
 
 	// 자기 기준으로 앞에 오는 것이 관계타입
-	@OneToMany(mappedBy = "noticeVO", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "noticeVO", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<NoticeFileVO> noticeFileVOs;
 
 }

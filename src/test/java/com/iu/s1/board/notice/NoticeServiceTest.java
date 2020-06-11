@@ -17,17 +17,17 @@ class NoticeServiceTest {
 	@Autowired
 	private NoticeService noticeService;
 
-	@Test
-	void boardListTest() throws Exception {
-		Pageable pageable = PageRequest.of(0, 10, Sort.Direction.DESC, "num");
-
-		List<NoticeVO> ar = noticeService.getSelectList(pageable,"");
-
-		for (NoticeVO noticeVO : ar) {
-			System.out.println(noticeVO.getNum());
-			System.out.println(noticeVO.getTitle());
-		}
-
-	}
+//	@Test
+//	void boardListTest() throws Exception {
+//		Pageable pageable = PageRequest.of(0, 10, Sort.Direction.DESC, "num");
+//
+//		List<NoticeVO> ar = noticeService.getSelectList(pageable,"");
+//
+//		for (NoticeVO noticeVO : ar) {
+//			System.out.println(noticeVO.getNum());
+//			System.out.println(noticeVO.getTitle());
+//		}
+//
+//	}
 
 }
