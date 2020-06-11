@@ -14,18 +14,19 @@
 	<div class="container">
 		<h2>${board}list</h2>
 
-		<form action="./${board}List" class="form-inline">
+		<form action="./${board}List" class="form-inline" id="frm">
+			<input type="hidden" name="page" id="p">
 			<div class="input-group input-group-sm col-xs-2">
 				<select class="form-control" id="sel1" name="kind">
-					<option value="bt">Title</option>
-					<option value="bc">Contents</option>
-					<option value="bw">Writer</option>
+					<option id="title" value="bt">Title</option>
+					<option id="writer" value="bc">Contents</option>
+					<option id="contents" value="bw">Writer</option>
 				</select>
 			</div>
 			<div class="input-group input-group-sm col-xs-4">
 
 				<input type="text" class="form-control" placeholder="Search"
-					name="search">
+					name="search" value="${param.search}">
 				<div class="input-group-btn">
 					<button class="btn btn-default" type="submit">
 						<i class="glyphicon glyphicon-search"></i>
@@ -47,9 +48,11 @@
 
 				<tr>
 					<td>${vo.num}</td>
-					<%-- 					<td><c:catch>
+					<td>
+						<%-- <c:catch>
 							<c:forEach begin="1" end="${vo.depth}">--</c:forEach>
-						</c:catch> <a href="${board}Select?num=${vo.num}">${vo.title}</a></td> --%>
+						</c:catch> <a href="${board}Select?num=${vo.num}"> --%>${vo.title}<!-- </a> -->
+					</td>
 					<td>${vo.writer}</td>
 					<td>${vo.regDate}</td>
 					<td>${vo.hit}</td>
@@ -59,28 +62,27 @@
 
 		<div>
 
-			<span><a href="./${board}List?page=0">&lt;&lt;</a></span> <span><a
-				href="./${board}List?page=${page.getNumber()-1}">&lt;</a></span>
+			<span><a href="#" class="custompager" title="0">&lt;&lt;</a></span> <span><a
+				href="#" class="custompager" title="${page.getNumber()-1}">&lt;</a></span>
 			<c:forEach begin="${page.number}" end="${page.number+4}" var="i">
 				<c:if test="${i lt page.getTotalPages()}">
-					<a href="./${board}List?page=${i}">${i+1}</a>
+					<a href="#" class="custompager" title="${i}">${i+1}</a>
 				</c:if>
 			</c:forEach>
 
-			<span><a href="./${board}List?page=${page.getNumber()+1}">&gt;</a></span>
-			<span><a href="./${board}List?page=${page.getTotalPages()-1}">&gt;&gt;</a></span>
+			<span><a href="#" class="custompager"
+				title="${page.getNumber()+1}">&gt;</a></span> <span><a href="#"
+				class="custompager" title="${page.getTotalPages()-1}">&gt;&gt;</a></span>
 
 			<hr>
 
-			<c:if test="${not page.isFirst()}">
+			<%-- 			<c:if test="${not page.isFirst()}">
 				<a href="./${board}List?page=${page.getNumber()-1}">[이전페이지]</a>
 			</c:if>
 			<h1>${page.getNumber()+1}</h1>
 			<c:if test="${not page.isLast()}">
 				<a href="./${board}List?page=${page.getNumber()+1}">[다음페이지]</a>
-			</c:if>
-
-
+			</c:if> --%>
 
 		</div>
 
@@ -108,6 +110,19 @@
 	</div> --%>
 
 	<script type="text/javascript">
+		$(".custompager").click(function() {
+			var page = $(this).attr("title");
+			$('#p').val(page);
+			$('#frm').submit();
+		});
+
+		var kind = "${param.kind}";
+		if (kind == '') {
+			$('#title').prop("selected", true);
+		} else {
+			$("#" + kind).prop("selected", true);
+		}
+
 		var result = '${result}';
 		if (result != '') {
 			if (result == '1') {

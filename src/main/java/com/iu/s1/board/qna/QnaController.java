@@ -33,12 +33,15 @@ public class QnaController {
 
 	@GetMapping("qnaList")
 	public ModelAndView boardList(
-			@PageableDefault(size = 10, page = 0, direction = Direction.DESC, sort = { "num" }) Pageable pageable)
-			throws Exception {
+			@PageableDefault(size = 10, page = 0, direction = Direction.DESC, sort = { "num" }) Pageable pageable,
+			String kind, String search) throws Exception {
 
 		ModelAndView mv = new ModelAndView();
 
-		Page<QnaVO> page = qnaService.boardList(pageable);
+		System.out.println(search);
+		System.out.println(kind);
+
+		Page<QnaVO> page = qnaService.boardList(pageable,search,kind);
 
 		// 컬럼 갯수
 		System.out.println(page.getContent().size());
@@ -59,9 +62,9 @@ public class QnaController {
 		mv.addObject("page", page);
 		mv.setViewName("board/boardList");
 
-		if (page.getNumber() > page.getTotalPages() || page.getNumber() < 0) {
-			mv.setViewName("board/boardList?page=0");
-		}
+//		if (page.getNumber() > page.getTotalPages() || page.getNumber() < 0) {
+//			mv.setViewName("board/boardList?page=0");
+//		}
 
 		return mv;
 	}
@@ -70,24 +73,16 @@ public class QnaController {
 	public ModelAndView boardWrite() throws Exception {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("boardVO", new QnaVO());
+		mv.addObject("path", "Write");
 		mv.setViewName("board/boardWrite");
 		return mv;
 	}
 
 	@PostMapping("qnaWrite")
-	public ModelAndView setInsert(@Valid QnaVO qnaVO, BindingResult bindingResult, RedirectAttributes rd,
-			MultipartFile[] files) throws Exception {
-
+	public ModelAndView boardWrite(QnaVO qnaVO) throws Exception {
 		ModelAndView mv = new ModelAndView();
-
-		if (bindingResult.hasErrors()) {
-			mv.setViewName("board/boardWrite");
-			mv.addObject("path", "Write");
-
-		} else {
-			qnaService.setInsert(qnaVO, files);
-			mv.setViewName("redirect:./qnaList");
-		}
+		qnaVO = qnaService.boardWrite(qnaVO);
+		mv.setViewName("redirect:./qnaList");
 
 		return mv;
 	}
