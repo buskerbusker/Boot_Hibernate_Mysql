@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+
+import com.iu.s1.util.Pager;
 
 @Controller
 @RequestMapping("/qna/**")
@@ -32,16 +33,11 @@ public class QnaController {
 	}
 
 	@GetMapping("qnaList")
-	public ModelAndView boardList(
-			@PageableDefault(size = 10, page = 0, direction = Direction.DESC, sort = { "num" }) Pageable pageable,
-			String kind, String search) throws Exception {
+	public ModelAndView boardList(Pager pager) throws Exception {
 
 		ModelAndView mv = new ModelAndView();
 
-		System.out.println(search);
-		System.out.println(kind);
-
-		Page<QnaVO> page = qnaService.boardList(pageable,search,kind);
+		Page<QnaVO> page = qnaService.boardList(pager);
 
 		// 컬럼 갯수
 		System.out.println(page.getContent().size());

@@ -9,11 +9,14 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.iu.s1.util.FileManager;
 import com.iu.s1.util.FilePathGenerator;
+import com.iu.s1.util.Pager;
 
 @Service
 @Transactional(rollbackOn = Exception.class)
@@ -21,23 +24,27 @@ public class QnaService {
 
 	@Autowired
 	private QnaRepository qnaRepository;
-	@Value("${board.qna.filePath}")
-	private String filePath;
+	@Value("board.qna.filePath")
 	@Autowired
 	private FilePathGenerator pathGenerator;
 	@Autowired
 	private FileManager fileManager;
+	private String filePath;
 
-	public Page<QnaVO> boardList(Pageable pageable, String search, String kind) throws Exception {
+	public Page<QnaVO> boardList(Pager pager) throws Exception {
 
-		Page<QnaVO> ar = qnaRepository.findByWriterContaining(search, pageable);
+		pager.makeRow();
+		Pageable pageable = PageRequest.of((int) pager.getStartRow(), pager.getPerPage(),
+				Sort.by("ref").descending().and(Sort.by("step").ascending()));
 
-		if (kind.equals("writer") || kind == null) {
-			ar = qnaRepository.findByWriterContaining(search, pageable);
-		} else if (kind.equals("title")) {
-			ar = qnaRepository.findByTitleContaining(search, pageable);
-		} else if (kind.equals("contents")) {
-			ar = qnaRepository.findByContentsContaining(search, pageable);
+		Page<QnaVO> ar = qnaRepository.findByWriterContaining(pager.getSearch(), pageable);
+
+		if (pager.getKind().equals("writer") || pager.getKind() == null) {
+			ar = qnaRepository.findByWriterContaining(pager.getSearch(), pageable);
+		} else if (pager.getKind().equals("title")) {
+			ar = qnaRepository.findByTitleContaining(pager.getSearch(), pageable);
+		} else if (pager.getKind().equals("contents")) {
+			ar = qnaRepository.findByContentsContaining(pager.getSearch(), pageable);
 		}
 
 		return ar;
