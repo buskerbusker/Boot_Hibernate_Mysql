@@ -17,31 +17,20 @@ class QnaRepositoryTest {
 	@Test
 	public void inserTest() {
 
-		QnaVO qnaVO = new QnaVO();
-		qnaVO.setTitle("title2");
-		qnaVO.setWriter("writer2");
-		qnaVO.setContents("contents2");
+		for (int i = 0; i < 100; i++) {
+			QnaVO qnaVO = new QnaVO();
+			qnaVO.setTitle("title"+i);
+			qnaVO.setWriter("writer"+i);
+			qnaVO.setContents("contents"+i);
 
-		qnaVO = qnaRepository.save(qnaVO);
+			qnaVO = qnaRepository.save(qnaVO);
 
-		qnaVO.setRef(qnaVO.getNum());
-		qnaVO = qnaRepository.save(qnaVO);
+			qnaVO.setRef(qnaVO.getNum());
+			qnaVO = qnaRepository.save(qnaVO);
 
-		assertNotNull(qnaVO);
+		}
 
-	}
-
-	@Test
-	public void insertTest2() {
-
-		QnaVO qnaVO = new QnaVO();
-		qnaVO.setTitle("title2");
-		qnaVO.setWriter("writer2");
-		qnaVO.setContents("contents2");
-
-		qnaVO = qnaService.setInsert(qnaVO, files);
-
-		assertNotNull(qnaVO);
+		//assertNotNull(qnaVO);
 
 	}
 }

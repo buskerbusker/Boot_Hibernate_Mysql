@@ -43,13 +43,13 @@
 				<td>Hit</td>
 			</tr>
 
-			<c:forEach items="${list}" var="vo">
+			<c:forEach items="${page.content}" var="vo">
 
 				<tr>
 					<td>${vo.num}</td>
-					<td><c:catch>
+					<%-- 					<td><c:catch>
 							<c:forEach begin="1" end="${vo.depth}">--</c:forEach>
-						</c:catch> <a href="${board}Select?num=${vo.num}">${vo.title}</a></td>
+						</c:catch> <a href="${board}Select?num=${vo.num}">${vo.title}</a></td> --%>
 					<td>${vo.writer}</td>
 					<td>${vo.regDate}</td>
 					<td>${vo.hit}</td>
@@ -57,11 +57,20 @@
 			</c:forEach>
 		</table>
 
+		<div>
+			<c:forEach begin="1" end="${page.totalPages}" var="i">
+				${i}
+			</c:forEach>
+
+		</div>
+
+
+
 		<a href="./${board}Write" class="btn btn-danger">Write</a>
 
 	</div>
 
-	<div>
+	<%-- 	<div>
 		<ul class="pagination" style="margin-left: 399px;">
 			<c:if test="${pager.curBlock gt 1}">
 				<li><a
@@ -76,7 +85,7 @@
 					href="./${board}List?curPage=${pager.lastNum+1}&kind=${pager.kind}&search=${pager.search}">다음</a></li>
 			</c:if>
 		</ul>
-	</div>
+	</div> --%>
 
 	<script type="text/javascript">
 		var result = '${result}';

@@ -6,11 +6,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.iu.s1.board.notice.NoticeFileVO;
-import com.iu.s1.board.notice.NoticeVO;
 import com.iu.s1.util.FileManager;
 import com.iu.s1.util.FilePathGenerator;
 
@@ -26,8 +25,9 @@ public class QnaService {
 	@Autowired
 	private FileManager fileManager;
 
-	public void boardList() throws Exception {
+	public Page<QnaVO> boardList(Pageable pageable) throws Exception {
 
+		return qnaRepository.findAll(pageable);
 	}
 
 	public QnaVO boardWrite(QnaVO qnaVO) throws Exception {
