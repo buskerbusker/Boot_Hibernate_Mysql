@@ -58,9 +58,29 @@
 		</table>
 
 		<div>
-			<c:forEach begin="1" end="${page.totalPages}" var="i">
-				${i}
+
+			<span><a href="./${board}List?page=0">&lt;&lt;</a></span> <span><a
+				href="./${board}List?page=${page.getNumber()-1}">&lt;</a></span>
+			<c:forEach begin="${page.number}" end="${page.number+4}" var="i">
+				<c:if test="${i lt page.getTotalPages()}">
+					<a href="./${board}List?page=${i}">${i+1}</a>
+				</c:if>
 			</c:forEach>
+
+			<span><a href="./${board}List?page=${page.getNumber()+1}">&gt;</a></span>
+			<span><a href="./${board}List?page=${page.getTotalPages()-1}">&gt;&gt;</a></span>
+
+			<hr>
+
+			<c:if test="${not page.isFirst()}">
+				<a href="./${board}List?page=${page.getNumber()-1}">[이전페이지]</a>
+			</c:if>
+			<h1>${page.getNumber()+1}</h1>
+			<c:if test="${not page.isLast()}">
+				<a href="./${board}List?page=${page.getNumber()+1}">[다음페이지]</a>
+			</c:if>
+
+
 
 		</div>
 

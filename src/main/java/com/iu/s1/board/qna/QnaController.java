@@ -40,7 +40,9 @@ public class QnaController {
 
 		Page<QnaVO> page = qnaService.boardList(pageable);
 
+		// 컬럼 갯수
 		System.out.println(page.getContent().size());
+		// 한페이지 글갯수. 위의 size
 		System.out.println(page.getSize());
 		// 총글의 갯수
 		System.out.println(page.getTotalElements());
@@ -49,9 +51,17 @@ public class QnaController {
 		// 다음 및 이전페이지 true false
 		System.out.println(page.hasNext());
 		System.out.println(page.hasPrevious());
+		// 페이지 번호
+		System.out.println(page.getNumber());
+		System.out.println(page.isFirst());
+		System.out.println(page.isLast());
 
 		mv.addObject("page", page);
 		mv.setViewName("board/boardList");
+
+		if (page.getNumber() > page.getTotalPages() || page.getNumber() < 0) {
+			mv.setViewName("board/boardList?page=0");
+		}
 
 		return mv;
 	}
