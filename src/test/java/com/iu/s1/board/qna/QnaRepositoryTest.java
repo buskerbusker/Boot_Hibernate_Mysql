@@ -31,17 +31,17 @@ class QnaRepositoryTest {
 
 	}
 
-//	@Test
-//	public void insertTest2() {
-//
-//		QnaVO qnaVO = new QnaVO();
-//		qnaVO.setTitle("title2");
-//		qnaVO.setWriter("writer2");
-//		qnaVO.setContents("contents2");
-//
-//		qnaVO = qnaService.setInsert(qnaVO, files);
-//
-//		assertNotNull(qnaVO);
-//
-//	}
+	@Test
+	public void insertTest2() {
+
+		QnaVO qnaVO = new QnaVO();
+		qnaVO.setTitle("title2");
+		qnaVO.setWriter("writer2");
+		qnaVO.setContents("contents2");
+
+		qnaVO = qnaService.setInsert(qnaVO, files);
+
+		assertNotNull(qnaVO);
+
+	}
 }

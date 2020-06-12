@@ -37,15 +37,4 @@ public class BoardVO {
 	@Column
 	private long hit;
 
-	// null일시
-	// private Long hit;
-	// 세터와 게터 설정
-// public Long getRef(){
-//	if(this.ref==null)
-//	{
-//		this.ref = 0L;
-//	}return this.ref;
-//
-//}
-
 }

@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,7 +15,6 @@ import com.iu.s1.util.FileManager;
 import com.iu.s1.util.FilePathGenerator;
 
 @Service
-@Transactional(rollbackOn = Exception.class)
 public class QnaService {
 
 	@Autowired
@@ -66,53 +63,6 @@ public class QnaService {
 		qnaRepository.save(qnaVO);
 		qnaVO.setRef(qnaVO.getNum());
 		qnaRepository.save(qnaVO);
-	}
-
-	public QnaVO boardReply(QnaVO qnaVO) throws Exception {
-
-		QnaVO childVO = new QnaVO();
-		childVO.setTitle(qnaVO.getTitle());
-		childVO.setWriter(qnaVO.getWriter());
-		childVO.setContents(qnaVO.getContents());
-
-		// update
-		// ref 가 부모의 ref와 같고 step이 부모의 step보다 큰것들을 찾아
-		// step을 1씩 증가
-
-		// 1. 부모의 정보 조회
-		qnaVO = qnaRepository.findById(qnaVO.getNum()).get();
-		List<QnaVO> ar = qnaRepository.findByRefAndStepGreterThan(qnaVO.getRef(), qnaVO.getStep());
-
-		for (QnaVO q : ar) {
-			q.setStep(q.getStep() + 1);
-		}
-
-		qnaRepository.saveAll(ar);
-
-		// 자기자신의 ref는 부모의 ref
-		// 자기자신의 step은 부모의 step+1
-		// 자기자신의 depth는 부모의 depth + 1
-
-		childVO.setRef(qnaVO.getRef());
-		childVO.setStep(qnaVO.getStep() + 1);
-		childVO.setDepth(qnaVO.getDepth() + 1);
-		qnaRepository.save(childVO);
-
-		return childVO;
-	}
-
-	public QnaVO boardSelect(QnaVO qnaVO) throws Exception {
-		qnaVO = qnaRepository.findById(qnaVO.getNum()).get();
-		qnaVO.setHit(qnaVO.getHit() + 1);
-		return qnaRepository.save(qnaVO);
-
-	}
-
-	public boolean boardDelete(QnaVO qnaVO) throws Exception {
-
-		qnaRepository.deleteById(qnaVO.getNum());
-		return qnaRepository.existsById(qnaVO.getNum());
-
 	}
 
 }

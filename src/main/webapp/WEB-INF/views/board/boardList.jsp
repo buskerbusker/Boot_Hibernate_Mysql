@@ -47,7 +47,7 @@
 
 				<tr>
 					<td>${vo.num}</td>
-					<td><c:catch><!-- exception 발생시 처리하기 위함 -->
+					<td><c:catch>
 							<c:forEach begin="1" end="${vo.depth}">--</c:forEach>
 						</c:catch> <a href="${board}Select?num=${vo.num}">${vo.title}</a></td>
 					<td>${vo.writer}</td>
@@ -77,24 +77,6 @@
 			</c:if>
 		</ul>
 	</div>
-
-	<%-- 	 20200612 오전 pager
-<div>
-		<ul class="pagination">
-			<c:if test="${pager.curBlock gt 1}">
-				<li><a href="#" class="custompager" title="${pager.startNum-1}">이전</a></li>
-			</c:if>
-			<c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="p">
-				<li><a href="#" class="custompager" title="${p}">${p}</a></li>
-			</c:forEach>
-			<c:if test="${pager.curBlock lt pager.totalBlock}">
-				<li><a href="#" class="custompager" title="${pager.lastNum+1}">다음</a></li>
-			</c:if>
-		</ul>
-
-	</div> --%>
-	1
-
 
 	<script type="text/javascript">
 		var result = '${result}';
